@@ -16,5 +16,13 @@ namespace TDD.StringCalculator.Tests
             var actual = _stringCalculator.Add(String.Empty);
             Assert.AreEqual("O", actual);
         }
+
+        [TestCase("1", "1")]
+        [TestCase("1.1,2.2", "6")]
+        public void Add_Given_CorrectFormatInputString_Returns_SumOfNumber(string inputString, string expected)
+        {
+            var actual = _stringCalculator.Add(inputString);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
