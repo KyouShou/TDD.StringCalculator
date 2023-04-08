@@ -16,13 +16,19 @@ namespace TDD.StringCalculator
 
             var splitedNumbers = inputString.Split(',', '.').ToList();
 
-            var sum = 0m;
+            return CalculateSum(splitedNumbers).ToString();
+        }
+
+        private static decimal CalculateSum(List<string> splitedNumbers)
+        {
+            var result = 0m;
+
             foreach (var number in splitedNumbers)
             {
-                sum += decimal.Parse(number);
+                result += decimal.Parse(number);
             }
 
-            return sum.ToString();
+            return result;
         }
     }
 }
