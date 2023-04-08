@@ -8,9 +8,11 @@ namespace TDD.StringCalculator
 {
     public class StringCalculator
     {
-        public object Add(string empty)
+        public string Add(string inputString)
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(inputString))
+                return "O";
+            throw new Exception("Should not be here.");
         }
     }
 }
