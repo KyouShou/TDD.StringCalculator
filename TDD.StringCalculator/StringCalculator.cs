@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TDD.StringCalculator
@@ -12,7 +13,16 @@ namespace TDD.StringCalculator
         {
             if (String.IsNullOrEmpty(inputString))
                 return "O";
-            throw new Exception("Should not be here.");
+
+            var splitedNumbers = inputString.Split(',', '.').ToList();
+
+            var sum = 0m;
+            foreach (var number in splitedNumbers)
+            {
+                sum += decimal.Parse(number);
+            }
+
+            return sum.ToString();
         }
     }
 }
