@@ -14,7 +14,7 @@ namespace TDD.StringCalculator
             if (String.IsNullOrEmpty(inputString))
                 return "O";
 
-            var splitedNumbers = inputString.Split(',', '.').ToList();
+            var splitedNumbers = inputString.Split(',', '.' , '\n').ToList();
 
             return CalculateSum(splitedNumbers).ToString();
         }
