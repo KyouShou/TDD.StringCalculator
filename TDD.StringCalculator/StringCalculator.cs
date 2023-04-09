@@ -19,7 +19,8 @@ namespace TDD.StringCalculator
 
         public void SetCustomSeparators(string customSeparators)
         {
-            _splitPattern += "|" + Regex.Escape(customSeparators);
+            //_splitPattern += "|" + Regex.Escape(customSeparators);
+            _splitPattern = Regex.Escape(customSeparators);
             _regex = new Regex(_splitPattern);
         }
 
@@ -34,7 +35,22 @@ namespace TDD.StringCalculator
 
             CheckNoContinuousSplitChar(splitedNumbers);
 
+            CheckInvalidSeparators(splitedNumbers);
+
             return CalculateSum(splitedNumbers).ToString();
+        }
+
+        private void CheckInvalidSeparators(List<string> splitedNumbers)
+        {
+            var regex = new Regex("^[0-9]*$");
+
+            foreach (var num in splitedNumbers)
+            {
+                if (!regex.IsMatch(num))
+                {
+                    throw new Exception("含有無法使用的分割字元");
+                }
+            }       
         }
 
         private List<string> SplitStringWithPattern(string inputString)
