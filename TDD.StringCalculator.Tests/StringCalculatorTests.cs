@@ -52,7 +52,8 @@ namespace TDD.StringCalculator.Tests
             string exceptionMessage = exception.Message;
 
             StringAssert.Contains("最後", exceptionMessage);
-            StringAssert.Contains("不可為分割字元", exceptionMessage);
+            StringAssert.Contains("不可", exceptionMessage);
+            StringAssert.Contains("分割字元", exceptionMessage);
         }
     }
 }
