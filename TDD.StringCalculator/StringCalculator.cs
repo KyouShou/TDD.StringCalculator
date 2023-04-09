@@ -35,17 +35,35 @@ namespace TDD.StringCalculator
             return CalculateSum(splitedNumbers).ToString();
         }
 
+        private List<string> SplitStringWithPattern(string inputString)
+        {
+            var splitedNumbers = _regex.Split(inputString).ToList();
+            return splitedNumbers;
+        }
+
         private void CheckValid(List<string> splitedNumbers)
         {   
             //此方法不可更改執行順序，否則會出錯
             CheckLastCharNotSeparator(splitedNumbers);
             CheckNoContinuousSeparators(splitedNumbers);
             CheckInvalidSeparators(splitedNumbers);
+            CheckNegativeNumbers(splitedNumbers);
+        }
+
+        private void CheckNegativeNumbers(List<string> splitedNumbers)
+        {
+            foreach (var num in splitedNumbers)
+            {
+                if (int.Parse(num) < 0)
+                {
+                    throw new Exception("輸入的數字不可為負數");
+                }
+            }
         }
 
         private void CheckInvalidSeparators(List<string> splitedNumbers)
         {
-            var regex = new Regex("^[0-9]*$");
+            var regex = new Regex("^[0-9]*$|-");
 
             foreach (var num in splitedNumbers)
             {
@@ -54,12 +72,6 @@ namespace TDD.StringCalculator
                     throw new Exception("含有無法使用的分割字元");
                 }
             }       
-        }
-
-        private List<string> SplitStringWithPattern(string inputString)
-        {
-            var splitedNumbers = _regex.Split(inputString).ToList();
-            return splitedNumbers;
         }
 
         private void CheckLastCharNotSeparator(List<string> splitedNumbers)
