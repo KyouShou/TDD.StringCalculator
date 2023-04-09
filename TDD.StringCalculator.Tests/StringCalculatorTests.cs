@@ -28,17 +28,15 @@ namespace TDD.StringCalculator.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void Add_Given_ContinuousSplitChar_Returns_Exception()
+        [TestCase("175.2,\n35", "6")]
+        public void Add_Given_ContinuousSplitChar_Returns_Exception(string inputString, string expectedErrorIndex)
         {
-            var inputString = "175.2,\n35";
-
             var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
 
             string exceptionMessage = exception.Message;
 
             StringAssert.Contains("位置", exceptionMessage);
-            StringAssert.Contains("6", exceptionMessage);
+            StringAssert.Contains(expectedErrorIndex, exceptionMessage);
             StringAssert.Contains("應為數字", exceptionMessage);
         }
     }
