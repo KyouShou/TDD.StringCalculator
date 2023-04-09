@@ -31,14 +31,12 @@ namespace TDD.StringCalculator.Tests
         {
             var inputString = "175.2,\n35";
 
-            var actual = _stringCalculator.Add(inputString);
-
             var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
 
             string exceptionMessage = exception.ToString();
 
-            StringAssert.StartsWith("位置" , exceptionMessage);
-            StringAssert.EndsWith("應為數字", exceptionMessage);
+            StringAssert.Contains("位置" , exceptionMessage);
+            StringAssert.Contains("應為數字", exceptionMessage);
         }
     }
 }
