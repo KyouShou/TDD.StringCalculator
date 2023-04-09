@@ -12,6 +12,12 @@ namespace TDD.StringCalculator.Tests
             _stringCalculator = new StringCalculator();
         }
 
+        [TearDown]
+        public void End()
+        {
+            _stringCalculator = null;
+        }
+
         [Test]
         public void Add_Given_EmptyString_Returns_O()
         {
@@ -54,6 +60,18 @@ namespace TDD.StringCalculator.Tests
             StringAssert.Contains("最後", exceptionMessage);
             StringAssert.Contains("不可", exceptionMessage);
             StringAssert.Contains("分割字元", exceptionMessage);
+        }
+
+        [TestCase(";", "1;2", "3")]
+        [TestCase("|", "1|2|3", "6")]
+        [TestCase("sep", "2sep3", "5")]
+        public void SetCustomSeparators_Returns_Sum(string customSaparators, string inputString, string expexted)
+        {
+            _stringCalculator.SetCustomSeparators(customSaparators);
+
+            var actual = _stringCalculator.Add(inputString);
+
+            Assert.AreEqual(expexted, actual);
         }
     }
 }
