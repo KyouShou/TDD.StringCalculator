@@ -19,7 +19,6 @@ namespace TDD.StringCalculator
 
         public void SetCustomSeparators(string customSeparators)
         {
-            //_splitPattern += "|" + Regex.Escape(customSeparators);
             _splitPattern = Regex.Escape(customSeparators);
             _regex = new Regex(_splitPattern);
         }
@@ -31,13 +30,17 @@ namespace TDD.StringCalculator
 
             var splitedNumbers = SplitStringWithPattern(inputString);
 
-            CheckLastCharNotSplitChar(splitedNumbers);
-
-            CheckNoContinuousSplitChar(splitedNumbers);
-
-            CheckInvalidSeparators(splitedNumbers);
+            CheckValid(splitedNumbers);
 
             return CalculateSum(splitedNumbers).ToString();
+        }
+
+        private void CheckValid(List<string> splitedNumbers)
+        {   
+            //此方法不可更改執行順序，否則會出錯
+            CheckLastCharNotSeparator(splitedNumbers);
+            CheckNoContinuousSeparators(splitedNumbers);
+            CheckInvalidSeparators(splitedNumbers);
         }
 
         private void CheckInvalidSeparators(List<string> splitedNumbers)
@@ -59,7 +62,7 @@ namespace TDD.StringCalculator
             return splitedNumbers;
         }
 
-        private void CheckLastCharNotSplitChar(List<string> splitedNumbers)
+        private void CheckLastCharNotSeparator(List<string> splitedNumbers)
         {
             var lastStringInList = splitedNumbers[splitedNumbers.Count - 1];
             if (string.IsNullOrEmpty(lastStringInList))
@@ -68,7 +71,7 @@ namespace TDD.StringCalculator
             }
         }
 
-        private void CheckNoContinuousSplitChar(List<string> splitedNumbers)
+        private void CheckNoContinuousSeparators(List<string> splitedNumbers)
         {
             for (int i = 0; i < splitedNumbers.Count; i++)
             {
