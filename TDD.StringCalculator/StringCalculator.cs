@@ -11,6 +11,7 @@ namespace TDD.StringCalculator
     {
         private string _splitPattern = ",|\\.|\n";
         Regex _regex;
+        private delegate void CheckValidMethods(List<string> splitedNumbers);
 
         public StringCalculator()
         {
@@ -43,48 +44,44 @@ namespace TDD.StringCalculator
 
         private void CheckValid(List<string> splitedNumbers)
         {
-            List<Exception> exceptions = new List<Exception>();
+            List<CheckValidMethods> checkValidMethodList = GetCheckValidMethodList();
 
-            try
-            {
-                CheckLastCharNotSeparator(splitedNumbers);
-            }
-            catch (Exception ex)
-            {
-                exceptions.Add(ex);
-            }
-
-            try
-            {
-                CheckNoContinuousSeparators(splitedNumbers);
-            }
-            catch (Exception ex)
-            {
-                exceptions.Add(ex);
-            }
-
-            try
-            {
-                CheckInvalidSeparators(splitedNumbers);
-            }
-            catch (Exception ex)
-            {
-                exceptions.Add(ex);
-            }
-
-            try
-            {
-                CheckNegativeNumbers(splitedNumbers);
-            }
-            catch (Exception ex)
-            {
-                exceptions.Add(ex);
-            }
+            List<Exception> exceptions = FindExceptions(splitedNumbers, checkValidMethodList);
 
             if (exceptions.Count > 0)
             {
                 throw new AggregateException("發生一個以上的錯誤", exceptions);
             }
+        }
+
+        private List<Exception> FindExceptions(List<string> splitedNumbers, List<CheckValidMethods> checkValidMethodList)
+        {
+            List<Exception> exceptions = new List<Exception>();
+
+            foreach (var method in checkValidMethodList)
+            {
+                try
+                {
+                    method(splitedNumbers);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(ex);
+                }
+            }
+
+            return exceptions;
+        }
+
+        private List<CheckValidMethods> GetCheckValidMethodList()
+        {
+            return new List<CheckValidMethods>()
+            {
+              CheckLastCharNotSeparator,
+              CheckNoContinuousSeparators,
+              CheckInvalidSeparators,
+              CheckNegativeNumbers
+            };
         }
 
         private void CheckNegativeNumbers(List<string> splitedNumbers)
@@ -108,7 +105,7 @@ namespace TDD.StringCalculator
                 {
                     throw new Exception("含有無法使用的分割字元");
                 }
-            }       
+            }
         }
 
         private void CheckLastCharNotSeparator(List<string> splitedNumbers)
