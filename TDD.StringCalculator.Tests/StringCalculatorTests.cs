@@ -29,6 +29,8 @@ namespace TDD.StringCalculator.Tests
         }
 
         [TestCase("175.2,\n35", "6")]
+        [TestCase("175\n\n2,\n35", "4")]
+        [TestCase("175..2,\n35", "4")]
         public void Add_Given_ContinuousSplitChar_Returns_Exception(string inputString, string expectedErrorIndex)
         {
             var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
