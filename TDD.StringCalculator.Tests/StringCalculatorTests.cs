@@ -39,13 +39,8 @@ namespace TDD.StringCalculator.Tests
         [TestCase("175..2,\n35", "4")]
         public void Add_Given_ContinuousSplitChar_Returns_Exception(string inputString, string expectedErrorIndex)
         {
-            var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
-
-            string exceptionMessage = exception.Message;
-
-            StringAssert.Contains("竚", exceptionMessage);
-            StringAssert.Contains(expectedErrorIndex, exceptionMessage);
-            StringAssert.Contains("莱计", exceptionMessage);
+            var messageKeywords = new List<string> { "竚", expectedErrorIndex, "莱计" };
+            CatchExceptionsAndCheckMessage(inputString, messageKeywords);
         }
 
         [Test]
@@ -53,13 +48,8 @@ namespace TDD.StringCalculator.Tests
         {
             var inputString = "1,3,";
 
-            var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
-
-            string exceptionMessage = exception.Message;
-
-            StringAssert.Contains("程", exceptionMessage);
-            StringAssert.Contains("ぃ", exceptionMessage);
-            StringAssert.Contains("だ澄じ", exceptionMessage);
+            var messageKeywords = new List<string> { "程", "ぃ", "だ澄じ" };
+            CatchExceptionsAndCheckMessage(inputString, messageKeywords);
         }
 
         [TestCase(";", "1;2", "3")]
@@ -79,20 +69,34 @@ namespace TDD.StringCalculator.Tests
         {
             _stringCalculator.SetCustomSeparators(customSaparators);
 
-            var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
-            var exceptionMessage = exception.Message;
-
-            StringAssert.Contains("礚猭ㄏノ", exceptionMessage);
+            var messageKeywords = new List<string> { "礚猭ㄏノ" };
+            CatchExceptionsAndCheckMessage(inputString, messageKeywords);
         }
 
         [TestCase("-1,2")]
         [TestCase("2,-4,-5")]
         public void Add_Given_NegativeNumbers_Throw_Exception(string inputString)
         {
-            var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
+            var messageKeywords = new List<string> { "璽计" };
+            CatchExceptionsAndCheckMessage(inputString, messageKeywords);
+        }
+
+        private void CatchExceptionsAndCheckMessage(string inputString, List<string> messageKeywords)
+        {
+            var exception = Assert.Throws<AggregateException>(() => _stringCalculator.Add(inputString));
+            var exceptionList = exception.InnerExceptions.ToList();
+
             var exceptionMessage = exception.Message;
 
-            StringAssert.Contains("璽计", exceptionMessage);
+            foreach (var ex in exceptionList)
+            {
+                exceptionMessage += ex.Message;
+            }
+
+            foreach (var keyword in messageKeywords)
+            {
+                StringAssert.Contains(keyword, exceptionMessage);
+            }
         }
     }
 }

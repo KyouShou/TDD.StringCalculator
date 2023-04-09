@@ -42,12 +42,49 @@ namespace TDD.StringCalculator
         }
 
         private void CheckValid(List<string> splitedNumbers)
-        {   
-            //此方法不可更改執行順序，否則會出錯
-            CheckLastCharNotSeparator(splitedNumbers);
-            CheckNoContinuousSeparators(splitedNumbers);
-            CheckInvalidSeparators(splitedNumbers);
-            CheckNegativeNumbers(splitedNumbers);
+        {
+            List<Exception> exceptions = new List<Exception>();
+
+            try
+            {
+                CheckLastCharNotSeparator(splitedNumbers);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+
+            try
+            {
+                CheckNoContinuousSeparators(splitedNumbers);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+
+            try
+            {
+                CheckInvalidSeparators(splitedNumbers);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+
+            try
+            {
+                CheckNegativeNumbers(splitedNumbers);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException("發生一個以上的錯誤", exceptions);
+            }
         }
 
         private void CheckNegativeNumbers(List<string> splitedNumbers)
