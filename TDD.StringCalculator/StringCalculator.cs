@@ -9,12 +9,18 @@ namespace TDD.StringCalculator
 {
     public class StringCalculator
     {
-        readonly string _splitPattern = ",|\\.|\n";
+        private string _splitPattern = ",|\\.|\n";
         Regex _regex;
 
         public StringCalculator()
         {
             this._regex = new Regex(_splitPattern);
+        }
+
+        public void SetCustomSeparators(string customSeparators)
+        {
+            _splitPattern += "|" + Regex.Escape(customSeparators);
+            _regex = new Regex(_splitPattern);
         }
 
         public string Add(string inputString)
@@ -31,7 +37,7 @@ namespace TDD.StringCalculator
             return CalculateSum(splitedNumbers).ToString();
         }
 
-        private  List<string> SplitStringWithPattern(string inputString)
+        private List<string> SplitStringWithPattern(string inputString)
         {
             var splitedNumbers = _regex.Split(inputString).ToList();
             return splitedNumbers;
@@ -43,7 +49,7 @@ namespace TDD.StringCalculator
             if (string.IsNullOrEmpty(lastStringInList))
             {
                 throw new Exception("最後一個字元不可為分割字元");
-            }           
+            }
         }
 
         private void CheckNoContinuousSplitChar(List<string> splitedNumbers)
