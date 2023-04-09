@@ -25,5 +25,20 @@ namespace TDD.StringCalculator.Tests
             var actual = _stringCalculator.Add(inputString);
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void Add_Given_ContinuousSplitChar_Returns_Exception()
+        {
+            var inputString = "175.2,\n35";
+
+            var actual = _stringCalculator.Add(inputString);
+
+            var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
+
+            string exceptionMessage = exception.ToString();
+
+            StringAssert.StartsWith("位置" , exceptionMessage);
+            StringAssert.EndsWith("應為數字", exceptionMessage);
+        }
     }
 }
