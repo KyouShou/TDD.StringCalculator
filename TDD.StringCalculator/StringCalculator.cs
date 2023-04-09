@@ -9,18 +9,32 @@ namespace TDD.StringCalculator
 {
     public class StringCalculator
     {
+        readonly string _splitPattern = ",|\\.|\n";
+        Regex _regex;
+
+        public StringCalculator()
+        {
+            this._regex = new Regex(_splitPattern);
+        }
+
         public string Add(string inputString)
         {
             if (String.IsNullOrEmpty(inputString))
                 return "O";
 
-            var splitedNumbers = inputString.Split(',', '.', '\n').ToList();
+            var splitedNumbers = SplitStringWithPattern(inputString);
 
             CheckLastCharNotSplitChar(splitedNumbers);
 
             CheckNoContinuousSplitChar(splitedNumbers);
 
             return CalculateSum(splitedNumbers).ToString();
+        }
+
+        private  List<string> SplitStringWithPattern(string inputString)
+        {
+            var splitedNumbers = _regex.Split(inputString).ToList();
+            return splitedNumbers;
         }
 
         private void CheckLastCharNotSplitChar(List<string> splitedNumbers)
