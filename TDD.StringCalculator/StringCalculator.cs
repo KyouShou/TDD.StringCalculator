@@ -16,9 +16,20 @@ namespace TDD.StringCalculator
 
             var splitedNumbers = inputString.Split(',', '.', '\n').ToList();
 
+            CheckLastCharNotSplitChar(splitedNumbers);
+
             CheckNoContinuousSplitChar(splitedNumbers);
 
             return CalculateSum(splitedNumbers).ToString();
+        }
+
+        private void CheckLastCharNotSplitChar(List<string> splitedNumbers)
+        {
+            var lastStringInList = splitedNumbers[splitedNumbers.Count - 1];
+            if (string.IsNullOrEmpty(lastStringInList))
+            {
+                throw new Exception("最後一個字元不可為分割字元");
+            }           
         }
 
         private void CheckNoContinuousSplitChar(List<string> splitedNumbers)
