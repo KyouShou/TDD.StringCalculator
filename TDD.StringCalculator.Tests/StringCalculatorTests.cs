@@ -19,6 +19,7 @@ namespace TDD.StringCalculator.Tests
 
         [TestCase("1", "1")]
         [TestCase("1.1,2.2", "6")]
+        [TestCase("1\n2,3", "6")]
         public void Add_Given_CorrectFormatInputString_Returns_SumOfNumber(string inputString, string expected)
         {
             var actual = _stringCalculator.Add(inputString);
