@@ -73,5 +73,16 @@ namespace TDD.StringCalculator.Tests
 
             Assert.AreEqual(expexted, actual);
         }
+
+        [TestCase("|", "1|2,3")]
+        public void Add_Given_InvalidSeparators_Throw_Exception(string customSaparators, string inputString)
+        {
+            _stringCalculator.SetCustomSeparators(customSaparators);
+
+            var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
+            var exceptionMessage = exception.Message;
+
+            StringAssert.Contains("無法使用", exceptionMessage);
+        }
     }
 }
