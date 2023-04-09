@@ -1,3 +1,5 @@
+using NUnit.Framework;
+
 namespace TDD.StringCalculator.Tests
 {
     public class StringCalculatorTests
@@ -33,9 +35,10 @@ namespace TDD.StringCalculator.Tests
 
             var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
 
-            string exceptionMessage = exception.ToString();
+            string exceptionMessage = exception.Message;
 
-            StringAssert.Contains("位置" , exceptionMessage);
+            StringAssert.Contains("位置", exceptionMessage);
+            StringAssert.Contains("6", exceptionMessage);
             StringAssert.Contains("應為數字", exceptionMessage);
         }
     }
