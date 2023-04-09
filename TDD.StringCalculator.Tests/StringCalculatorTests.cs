@@ -81,6 +81,15 @@ namespace TDD.StringCalculator.Tests
             CatchExceptionsAndCheckMessage(inputString, messageKeywords);
         }
 
+        [Test]
+        public void Add_Given_MultipleIllegalString_Throw_MultipleException()
+        {
+            var inputString = "-1,,2";
+            var expectedIndex = "3";
+            var messageKeywords = new List<string> { "負數", "位置" , expectedIndex , "應為數字" };
+            CatchExceptionsAndCheckMessage(inputString, messageKeywords);
+        }
+
         private void CatchExceptionsAndCheckMessage(string inputString, List<string> messageKeywords)
         {
             var exception = Assert.Throws<AggregateException>(() => _stringCalculator.Add(inputString));
