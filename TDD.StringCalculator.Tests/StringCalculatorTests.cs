@@ -41,5 +41,18 @@ namespace TDD.StringCalculator.Tests
             StringAssert.Contains(expectedErrorIndex, exceptionMessage);
             StringAssert.Contains("應為數字", exceptionMessage);
         }
+
+        [Test]
+        public void Add_Given_MissingNumberInLstPosition_Return_Exception()
+        {
+            var inputString = "1,3,";
+
+            var exception = Assert.Throws<Exception>(() => _stringCalculator.Add(inputString));
+
+            string exceptionMessage = exception.Message;
+
+            StringAssert.Contains("最後", exceptionMessage);
+            StringAssert.Contains("不可為分割字元", exceptionMessage);
+        }
     }
 }
